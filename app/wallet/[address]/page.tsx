@@ -1,9 +1,29 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { detectAddressType, shortAddress } from "@/lib/utils";
 import { WalletSearch } from "@/components/wallet-search";
 import { Dashboard } from "@/components/dashboard";
 import { Logo } from "@/components/logo";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ address: string }>;
+}): Promise<Metadata> {
+  const { address: raw } = await params;
+  const address = decodeURIComponent(raw).trim();
+  const short = shortAddress(address, 6);
+  const title = `${short} — Halo wallet risk score`;
+  const description =
+    "Multi-chain wallet risk score, portfolio history, approvals audit and counterparty graph — powered by GoldRush.";
+  return {
+    title,
+    description,
+    openGraph: { title, description, type: "website" },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
 
 export default async function WalletPage({
   params,

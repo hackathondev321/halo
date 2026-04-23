@@ -89,3 +89,49 @@ export interface RiskScoreResponse {
   breakdown: RiskBreakdown[];
   insights: string[];
 }
+
+export interface HistoryPoint {
+  timestamp: string;
+  quote: number;
+  byChain: Record<string, number>;
+}
+
+export interface HistoryResponse {
+  address: string;
+  days: number;
+  points: HistoryPoint[];
+  high: number;
+  low: number;
+  current: number;
+  changePct: number;
+  fetchedChains: string[];
+  errors: { chain: string; message: string }[];
+}
+
+export interface Counterparty {
+  address: string;
+  label: string | null;
+  interactions: number;
+  lastSeen: string;
+  totalValueQuote: number;
+  category: string;
+  chains: string[];
+  direction: "in" | "out" | "both";
+}
+
+export interface CounterpartiesResponse {
+  address: string;
+  totalCounterparties: number;
+  items: Counterparty[];
+  errors: { chain: string; message: string }[];
+}
+
+export interface AiSummaryResponse {
+  address: string;
+  summary: string;
+  headlines: string[];
+  recommendations: string[];
+  model: string;
+  generated: boolean;
+  reason?: string;
+}
